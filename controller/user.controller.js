@@ -4,30 +4,14 @@ const validator = require("validator");
 const validateUserRegisterInput = require("../utils/validate.utils.js");
 const User = require("../models/user.model.js");
 
-function inputValidator(name, email, password) {
-  let userName, userEmail, userPassword;
-
-  // sanitize inputs
-  if (name) userName = validator.escape(name);
-  if (email) userEmail = validator.normalizeEmail(email);
-  if (password) userPassword = validator.escape(password);
-
-  return { userName, userEmail, userPassword };
-}
-
 const createUser = async function (req, res) {
   try {
     let { name, email, password } = req.body;
 
-    let { userName, userEmail, userPassword } = inputValidator(
-      name,
-      email,
-      password
-    );
-
-    name = userName;
-    email = userEmail;
-    password = userPassword;
+    // sanitize inputs
+    name = validator.escape(name);
+    email = validator.normalizeEmail(email);
+    password = validator.escape(password);
 
     if (await User.findOne({ name }))
       return res
@@ -47,10 +31,6 @@ const createUser = async function (req, res) {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
-
-const loginUser = function (req, res) {
-  const { email, password } = req.body;
 };
 
 module.exports = { createUser };
