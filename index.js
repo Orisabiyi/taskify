@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-process.loadEnvFile(".env");
+const config = require("dotenv");
 
 const app = express();
 app.use(express.json());
