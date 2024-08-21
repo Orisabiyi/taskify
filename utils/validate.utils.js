@@ -17,4 +17,15 @@ const validateUserRegisterInput = function (res, email, password) {
   return true;
 };
 
-module.exports = validateUserRegisterInput;
+const inputValidator = function (name, email, password) {
+  let userName, userEmail, userPassword;
+
+  if (name) userName = validator.escape(name);
+  if (email) userEmail = validator.normalizeEmail(email);
+  if (password) userPassword = validator.escape(password);
+};
+
+module.exports = {
+  validateUserRegisterInput,
+  inputValidator,
+};
