@@ -5,7 +5,7 @@ require("dotenv").config();
 const app = express();
 app.use(express.json());
 
-app.get("/", () => console.log("Welcome to taskify api"));
+app.get("/", (_, res) => res.send("Welcome to taskify api"));
 
 mongoose
   .connect(process.env.DB_URL)
