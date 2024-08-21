@@ -9,11 +9,6 @@ const validateUserRegisterInput = function (res, email, password) {
       .status(400)
       .json({ message: "Password must be at least 8 characters" });
 
-  if (!validator.isAlphanumeric(password))
-    return res
-      .status(400)
-      .json({ message: "Password must contain only numbers and letters" });
-
   if (!/[!@#$%^&*(),.?":{}|<>]/.test(password))
     return res.status(400).json({
       message: "Password must contain at least one special character",
