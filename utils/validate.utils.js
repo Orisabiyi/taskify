@@ -1,6 +1,6 @@
 const validator = require("validator");
 
-const validateUserRegisterInput = function (email, password) {
+const validateUserRegisterInput = function (res, email, password) {
   if (!validator.isEmail(email))
     res.status(409).json({ message: "The email provided is not valid" });
 
