@@ -22,6 +22,11 @@ const createUser = async function (req, res) {
 
     email = email.toLowerCase();
     password = bcrypt.hash(password, 10);
+
+    const user = User.create({ name, email, password });
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
