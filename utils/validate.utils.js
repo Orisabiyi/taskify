@@ -2,7 +2,7 @@ const validator = require("validator");
 
 const validateUserRegisterInput = function (res, email, password) {
   if (!validator.isEmail(email))
-    res.status(409).json({ message: "The email provided is not valid" });
+    return res.status(409).json({ message: "The email provided is not valid" });
 
   if (!validator.isLength(password, { min: 8 }))
     return res
