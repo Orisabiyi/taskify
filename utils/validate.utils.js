@@ -19,3 +19,5 @@ const validateUserRegisterInput = function (email, password) {
       message: "Password must contain at least one special character",
     });
 };
+
+module.exports = validateUserRegisterInput;
