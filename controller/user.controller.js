@@ -18,7 +18,7 @@ const createUser = async function (req, res) {
         .status(409)
         .json({ message: "A user with that name already exists" });
 
-    validateUserRegisterInput(email, password);
+    validateUserRegisterInput(res, email, password);
 
     email = email.toLowerCase();
     password = bcrypt.hash(password, 10);
