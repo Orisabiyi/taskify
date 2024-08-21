@@ -6,7 +6,9 @@ const User = require("../models/user.model.js");
 const createUser = async function (req, res) {
   let { name, email, password } = req.body;
 
-  // name = validator.escape(name);
+  name = validator.escape(name);
+  email = validator.normalizeEmail(email);
+  password = validator.escape(password);
 
   if (await User.findOne({ name }))
     return res
