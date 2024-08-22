@@ -44,6 +44,7 @@ const loginUser = async function (req, res) {
   try {
     let { email, password } = req.body;
 
+    // sanitize input
     const { userEmail, userPassword } = inputValidator(email, password);
     email = userEmail;
     password = userPassword;
