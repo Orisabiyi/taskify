@@ -11,21 +11,19 @@ const createUser = async function (req, res) {
   try {
     let { name, email, password } = req.body;
 
+    // sanitize inputs
     const { userName, userEmail, userPassword } = inputValidator(
       name,
       email,
       password
     );
 
-    // sanitize inputs
     name = userName;
     email = userEmail;
     password = userPassword;
 
-    if (await User.findOne({ name }))
-      return res
-        .status(409)
-        .json({ message: "A user with that name already exists" });
+    if ((await User.findOne({ name })) || (await User.findOne({ email })))
+      return res.status(409).json({ message: "A user already exists" });
 
     if (validateUserRegisterInput(res, email, password) !== true) return;
 
