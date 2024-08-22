@@ -40,4 +40,26 @@ const createUser = async function (req, res) {
   }
 };
 
-module.exports = { createUser };
+const loginUser = async function (req, res) {
+  try {
+    let { email, password } = req.body;
+
+    const { userEmail, userPassword } = inputValidator(email, password);
+    email = userEmail;
+    password = userPassword;
+
+    const user = await User.findOne({ email });
+
+    if (!user) return res.status(409).json({ message: "user not found " });
+
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
+
+    res.status(200).json({ token });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { createUser, loginUser };
