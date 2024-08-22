@@ -18,9 +18,9 @@ const createUser = async function (req, res) {
     );
 
     // sanitize inputs
-    name = validator.escape(name);
-    email = validator.normalizeEmail(email);
-    password = validator.escape(password);
+    name = userName;
+    email = userEmail;
+    password = userPassword;
 
     if (await User.findOne({ name }))
       return res
