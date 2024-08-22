@@ -20,9 +20,9 @@ const validateUserRegisterInput = function (res, email, password) {
 const inputValidator = function (name, email, password) {
   let userName, userEmail, userPassword;
 
-  if (name) userName = validator.escape(name);
-  if (email) userEmail = validator.normalizeEmail(email);
-  if (password) userPassword = validator.escape(password);
+  if (name !== undefined) userName = validator.escape(name);
+  if (email !== undefined) userEmail = validator.normalizeEmail(email);
+  if (password !== undefined) userPassword = validator.escape(password);
 
   return { userName, userEmail, userPassword };
 };
