@@ -23,6 +23,8 @@ const inputValidator = function (name, email, password) {
   if (name) userName = validator.escape(name);
   if (email) userEmail = validator.normalizeEmail(email);
   if (password) userPassword = validator.escape(password);
+
+  return { userName, userEmail, userPassword };
 };
 
 module.exports = {

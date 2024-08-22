@@ -11,6 +11,12 @@ const createUser = async function (req, res) {
   try {
     let { name, email, password } = req.body;
 
+    const { userName, userEmail, userPassword } = inputValidator(
+      name,
+      email,
+      password
+    );
+
     // sanitize inputs
     name = validator.escape(name);
     email = validator.normalizeEmail(email);
