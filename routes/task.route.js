@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const createTask = require("../routes/task.route.js");
+const createTask = require("../controller/task.controller.js");
 
 router.post("/create", createTask);
 
