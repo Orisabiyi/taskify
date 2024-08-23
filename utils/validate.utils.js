@@ -27,6 +27,19 @@ const inputValidator = function (name, email, password) {
   return { userName, userEmail, userPassword };
 };
 
+const isValidDate = function (dateString) {
+  const regex = /^\d{2}\/\d{2}\/\d{4}$/;
+  if (!regex.test(dateString)) return false;
+
+  const [day, month, year] = dateString.split("/").map(Number);
+  const date = new Date(year, month - 1, day);
+  return (
+    date.getFullYear() === year &&
+    date.getMonth() === month - 1 &&
+    date.getDate() === day
+  );
+};
+
 const taskInputValidator = function (
   res,
   userId,
@@ -37,34 +50,29 @@ const taskInputValidator = function (
   dueDate
 ) {
   // validate user inputs
-  if (!userId || typeof userId !== String)
+  if (!userId || typeof userId !== "string")
     return res.status(401).json({ message: "invalid userId" });
 
-  if (!name || typeof name !== String)
+  if (!name || typeof name !== "string")
     return res.status(401).json({ message: "invalid name" });
 
-  if (
-    !status ||
-    status.toLowerCase() !== "complete" ||
-    status.toLowerCase() !== "uncomplete"
-  )
-    return res.status(401).json({ message: "invalid status value" });
+  if (!status) return res.status(401).json({ message: "invalid status value" });
 
-  if (!categories || typeof categories !== String)
+  if (!categories || typeof categories !== "string")
     return res.status(401).json({
       message: !categories
         ? "provide category value"
         : "categories value should be a string",
     });
 
-  if (!priority || typeof priority !== Number)
+  if (!priority || typeof priority !== "number")
     return res.status(401).json({
       message: !priority
         ? "provide a value for priority"
         : "priority should be a number",
     });
 
-  if (!validator.isDate(dueDate))
+  if (!isValidDate(dueDate))
     return res.status(401).json({ message: "date is invalid" });
 
   return true;
