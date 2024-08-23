@@ -57,6 +57,9 @@ const loginUser = async function (req, res) {
 
     if (!user) return res.status(409).json({ message: "user not found " });
 
+    if (!(await bcrypt.compare(password, user.password)))
+      return res.status(401).json({ message: "Invalid credentials" });
+
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
