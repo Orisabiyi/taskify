@@ -18,7 +18,7 @@ const TaskSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    date: {
+    dueDate: {
       type: String,
       required: true,
     },
