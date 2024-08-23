@@ -66,6 +66,8 @@ const taskInputValidator = function (
 
   if (!validator.isDate(dueDate))
     return res.status(401).json({ message: "date is invalid" });
+
+  return true;
 };
 
 module.exports = {
