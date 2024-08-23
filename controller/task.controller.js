@@ -7,15 +7,18 @@ const createTask = async function (req, res) {
     const { userId, name, status, categories, priority, dueDate } = req.body;
 
     // if (taskInputValidator()) return
-    taskInputValidator(
-      res,
-      userId,
-      name,
-      status,
-      categories,
-      priority,
-      dueDate
-    );
+    if (
+      taskInputValidator(
+        res,
+        userId,
+        name,
+        status,
+        categories,
+        priority,
+        dueDate
+      ) !== true
+    )
+      return;
 
     const task = Task.create({
       userId,
