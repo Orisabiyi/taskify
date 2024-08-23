@@ -37,7 +37,7 @@ const taskInputValidator = function (
   dueDate
 ) {
   // validate user inputs
-  if (!userId || typeof userId !== Number)
+  if (!userId || typeof userId !== String)
     return res.status(401).json({ message: "invalid userId" });
 
   if (!name || typeof name !== String)
