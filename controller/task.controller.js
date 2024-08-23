@@ -16,6 +16,17 @@ const createTask = async function (req, res) {
       priority,
       dueDate
     );
+
+    const task = Task.create({
+      userId,
+      name,
+      status,
+      categories,
+      priority,
+      dueDate,
+    });
+
+    res.status(200).json({ task });
   } catch (error) {
     res.status(500).json({ messae: error.message });
   }

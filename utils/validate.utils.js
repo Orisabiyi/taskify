@@ -48,24 +48,24 @@ const taskInputValidator = function (
     status.toLowerCase() !== "complete" ||
     status.toLowerCase() !== "uncomplete"
   )
-    res.status(401).json({ message: "invalid status value" });
+    return res.status(401).json({ message: "invalid status value" });
 
   if (!categories || typeof categories !== String)
-    res.status(401).json({
+    return res.status(401).json({
       message: !categories
         ? "provide category value"
         : "categories value should be a string",
     });
 
   if (!priority || typeof priority !== Number)
-    res.status(401).json({
+    return res.status(401).json({
       message: !priority
         ? "provide a value for priority"
         : "priority should be a number",
     });
 
   if (!validator.isDate(dueDate))
-    res.status(401).json({ message: "date is invalid" });
+    return res.status(401).json({ message: "date is invalid" });
 };
 
 module.exports = {
