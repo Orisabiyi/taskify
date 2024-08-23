@@ -19,7 +19,7 @@ const TaskSchema = mongoose.Schema(
       required: true,
     },
     priority: {
-      type: String,
+      type: Number,
       required: true,
     },
     dueDate: {
