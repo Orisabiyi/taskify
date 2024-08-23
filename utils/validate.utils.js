@@ -56,7 +56,8 @@ const taskInputValidator = function (
   if (!name || typeof name !== "string")
     return res.status(401).json({ message: "invalid name" });
 
-  if (!status) return res.status(401).json({ message: "invalid status value" });
+  if (!status || (status !== "incomplete" && status !== "complete"))
+    return res.status(401).json({ message: "invalid status value" });
 
   if (!categories || typeof categories !== "string")
     return res.status(401).json({
