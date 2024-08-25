@@ -1,9 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const userRoute = require("./routes/user.route.js");
 require("dotenv").config();
 
 const app = express();
 app.use(express.json());
+
+app.use("/auth", userRoute);
 
 app.get("/", (_, res) => res.send("Welcome to taskify api"));
 
