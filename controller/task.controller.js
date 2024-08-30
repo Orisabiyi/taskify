@@ -43,7 +43,7 @@ const getAllTasks = async function (req, res) {
 
     if (!tasks)
       return res
-        .status(401)
+        .status(404)
         .json({ message: "Create a tasks, your task list is empty" });
 
     res.status(200).json({ tasks });
