@@ -50,4 +50,23 @@ const getAllTasks = async function (req, res) {
   }
 };
 
+const filterTaskByCategory = async function (req, res) {
+  try {
+    const { category } = req.body;
+    if (!category)
+      return res.status(400).json({ message: "Category is required" });
+    if (typeof category !== "string")
+      return res.status(400).json({ message: "Category should be a string" });
+
+    const tasks = Task.find(category);
+
+    if (!tasks || tasks.length === 0)
+      return res
+        .status(404)
+        .json({ message: `There is no existing for category ${catgory}` });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = { createTask, getAllTasks };
