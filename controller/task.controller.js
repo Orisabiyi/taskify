@@ -6,7 +6,6 @@ const createTask = async function (req, res) {
   try {
     const { userId, name, status, categories, priority, dueDate } = req.body;
 
-    // if (taskInputValidator()) return
     if (
       taskInputValidator(
         res,
@@ -20,7 +19,7 @@ const createTask = async function (req, res) {
     )
       return;
 
-    const task = Task.create({
+    const task = await Task.create({
       userId,
       name,
       status,
@@ -29,10 +28,49 @@ const createTask = async function (req, res) {
       dueDate,
     });
 
-    res.status(200).json({ task });
+    res.status(201).json({ task });
   } catch (error) {
-    res.status(500).json({ messae: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
-module.exports = createTask;
+const getAllTasks = async function (req, res) {
+  try {
+    const { userId } = req.body;
+    if (!userId) return res.status(400).json({ message: "Provide a userId" });
+
+    const tasks = await Task.find({ userId });
+
+    if (!tasks)
+      return res
+        .status(404)
+        .json({ message: "Create a tasks, your task list is empty" });
+
+    res.status(200).json({ tasks });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const filterTaskByCategory = async function (req, res) {
+  try {
+    const { category } = req.body;
+    if (!category)
+      return res.status(400).json({ message: "Category is required" });
+    if (typeof category !== "string")
+      return res.status(400).json({ message: "Category should be a string" });
+
+    const tasks = await Task.find(category);
+
+    if (!tasks || tasks.length === 0)
+      return res
+        .status(404)
+        .json({ message: `There is no existing for category ${category}` });
+
+    res.status(200).json({ tasks });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { createTask, getAllTasks, filterTaskByCategory };
