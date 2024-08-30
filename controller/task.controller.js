@@ -60,7 +60,7 @@ const filterTaskByCategory = async function (req, res) {
     if (typeof category !== "string")
       return res.status(400).json({ message: "Category should be a string" });
 
-    const tasks = Task.find(category);
+    const tasks = await Task.find(category);
 
     if (!tasks || tasks.length === 0)
       return res
