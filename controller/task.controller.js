@@ -28,7 +28,7 @@ const createTask = async function (req, res) {
       dueDate,
     });
 
-    res.status(200).json({ task });
+    res.status(201).json({ task });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -37,7 +37,9 @@ const createTask = async function (req, res) {
 const getAllTasks = async function (req, res) {
   try {
     const { userId } = req.body;
-    const tasks = await Task.findById(userId);
+    if (!userId) return res.status(400).json({ message: "Provide a userId" });
+
+    const tasks = await Task.find({ userId });
 
     if (!tasks)
       return res
