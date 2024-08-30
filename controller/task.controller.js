@@ -63,10 +63,12 @@ const filterTaskByCategory = async function (req, res) {
     if (!tasks || tasks.length === 0)
       return res
         .status(404)
-        .json({ message: `There is no existing for category ${catgory}` });
+        .json({ message: `There is no existing for category ${category}` });
+
+    res.status(200).json({ tasks });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-module.exports = { createTask, getAllTasks };
+module.exports = { createTask, getAllTasks, filterTaskByCategory };
