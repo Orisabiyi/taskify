@@ -77,6 +77,7 @@ const filterTaskByStatus = async function (req, res) {
   try {
     const { status, userId } = req.body;
 
+    // validate user input
     if (!status || !userId)
       return res.status(400).json({
         message: "Please provide both status and userId.",
@@ -87,17 +88,18 @@ const filterTaskByStatus = async function (req, res) {
         .status(400)
         .json({ message: "Both status and userId should be strings." });
 
+    // find tasks related to userId and validate the existence
     const tasks = await Task.find({ userId });
-
     if (!user) res.status(204).json({ message: "User do not exist" });
 
+    // filter tasks based on status value and validate
     const taskStatus = tasks.filter((task) => task.status === status);
-
     if (!taskStatus)
       res
         .status(204)
         .json({ message: "There is no task with that status value" });
 
+    // return the task based on the status provided when successful
     res.status(200).json({ message: taskStatus });
   } catch (error) {
     res.status(500).json({ error });
