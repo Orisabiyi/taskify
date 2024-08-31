@@ -53,7 +53,7 @@ const getAllTasks = async function (req, res) {
 
 const filterTaskByCategory = async function (req, res) {
   try {
-    const { category } = req.body;
+    const { category, userId } = req.body;
 
     if (!category)
       return res.status(400).json({ message: "Category is required" });
@@ -73,4 +73,15 @@ const filterTaskByCategory = async function (req, res) {
   }
 };
 
-module.exports = { createTask, getAllTasks, filterTaskByCategory };
+const filterTaskByStatus = async function (req, res) {
+  try {
+    const { status, userId } = req.body;
+  } catch (error) {}
+};
+
+module.exports = {
+  createTask,
+  getAllTasks,
+  filterTaskByCategory,
+  filterTaskByStatus,
+};
