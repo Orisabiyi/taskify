@@ -76,7 +76,19 @@ const filterTaskByCategory = async function (req, res) {
 const filterTaskByStatus = async function (req, res) {
   try {
     const { status, userId } = req.body;
-  } catch (error) {}
+
+    if (!status || !userId)
+      return res.status(400).json({
+        message: "Provide necessary value for your task status or userId",
+      });
+
+    if (typeof status !== "string" || typeof userId !== "string")
+      return res
+        .status(400)
+        .json({ message: "Provide your status or userId as a string" });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
 };
 
 module.exports = {
