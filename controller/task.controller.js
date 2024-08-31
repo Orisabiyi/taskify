@@ -55,17 +55,27 @@ const filterTaskByCategory = async function (req, res) {
   try {
     const { category, userId } = req.body;
 
-    if (!category)
-      return res.status(400).json({ message: "Category is required" });
-    if (typeof category !== "string")
-      return res.status(400).json({ message: "Category should be a string" });
+    if (!category || !userId)
+      return res
+        .status(400)
+        .json({ message: "Please provide both category and userId" });
+    if (typeof category !== "string" || typeof userId !== "string")
+      return res
+        .status(400)
+        .json({ message: "Both category and userId should be a string" });
 
-    const tasks = await Task.find(category);
-
+    const tasks = await Task.find({ userId });
     if (!tasks || tasks.length === 0)
       return res
         .status(404)
-        .json({ message: `There is no existing for category ${category}` });
+        .json({ message: `There is no existing tasks for this user` });
+
+    const taskCategory = tasks.filter((task) => task.category === category);
+
+    if (!taskCategory)
+      return res
+        .status(204)
+        .json({ message: "There is no task with the category provided" });
 
     res.status(200).json({ tasks });
   } catch (error) {
@@ -90,7 +100,8 @@ const filterTaskByStatus = async function (req, res) {
 
     // find tasks related to userId and validate the existence
     const tasks = await Task.find({ userId });
-    if (!user) res.status(204).json({ message: "User do not exist" });
+    if (!tasks || tasks.length === 0)
+      res.status(204).json({ message: "User do not exist" });
 
     // filter tasks based on status value and validate
     const taskStatus = tasks.filter((task) => task.status === status);
