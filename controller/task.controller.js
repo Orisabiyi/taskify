@@ -101,7 +101,7 @@ const filterTaskByStatus = async function (req, res) {
     // find tasks related to userId and validate the existence
     const tasks = await Task.find({ userId });
     if (!tasks || tasks.length === 0)
-      res.status(204).json({ message: "User do not exist" });
+      res.status(404).json({ message: "User do not exist" });
 
     // filter tasks based on status value and validate
     const taskStatus = tasks.filter((task) => task.status === status);
