@@ -45,7 +45,6 @@ const getAllTasks = async function (req, res) {
       return res
         .status(404)
         .json({ message: "Create a tasks, your task list is empty" });
-
     res.status(200).json({ tasks });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -54,7 +53,8 @@ const getAllTasks = async function (req, res) {
 
 const filterTaskByCategory = async function (req, res) {
   try {
-    const { category } = req.body;
+    const { category, userId } = req.body;
+
     if (!category)
       return res.status(400).json({ message: "Category is required" });
     if (typeof category !== "string")
@@ -73,4 +73,40 @@ const filterTaskByCategory = async function (req, res) {
   }
 };
 
-module.exports = { createTask, getAllTasks, filterTaskByCategory };
+const filterTaskByStatus = async function (req, res) {
+  try {
+    const { status, userId } = req.body;
+
+    if (!status || !userId)
+      return res.status(400).json({
+        message: "Please provide both status and userId.",
+      });
+
+    if (typeof status !== "string" || typeof userId !== "string")
+      return res
+        .status(400)
+        .json({ message: "Both status and userId should be strings." });
+
+    const tasks = await Task.find({ userId });
+
+    if (!user) res.status(204).json({ message: "User do not exist" });
+
+    const taskStatus = tasks.filter((task) => task.status === status);
+
+    if (!taskStatus)
+      res
+        .status(204)
+        .json({ message: "There is no task with that status value" });
+
+    res.status(200).json({ message: taskStatus });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};
+
+module.exports = {
+  createTask,
+  getAllTasks,
+  filterTaskByCategory,
+  filterTaskByStatus,
+};
