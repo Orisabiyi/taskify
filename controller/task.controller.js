@@ -86,6 +86,10 @@ const filterTaskByStatus = async function (req, res) {
       return res
         .status(400)
         .json({ message: "Provide your status or userId as a string" });
+
+    const findUser = await Task.find({ userId });
+
+    console.log(findUser);
   } catch (error) {
     res.status(500).json({ error });
   }
