@@ -79,17 +79,26 @@ const filterTaskByStatus = async function (req, res) {
 
     if (!status || !userId)
       return res.status(400).json({
-        message: "Provide necessary value for your task status or userId",
+        message: "Please provide both status and userId.",
       });
 
     if (typeof status !== "string" || typeof userId !== "string")
       return res
         .status(400)
-        .json({ message: "Provide your status or userId as a string" });
+        .json({ message: "Both status and userId should be strings." });
 
-    const findUser = await Task.find({ userId });
+    const tasks = await Task.find({ userId });
 
-    console.log(findUser);
+    if (!user) res.status(204).json({ message: "User do not exist" });
+
+    const taskStatus = tasks.filter((task) => task.status === status);
+
+    if (!taskStatus)
+      res
+        .status(204)
+        .json({ message: "There is no task with that status value" });
+
+    res.status(200).json({ message: taskStatus });
   } catch (error) {
     res.status(500).json({ error });
   }
