@@ -105,8 +105,8 @@ const filterTaskByStatus = async function (req, res) {
 
     // filter tasks based on status value and validate
     const taskStatus = tasks.filter((task) => task.status === status);
-    if (!taskStatus)
-      res
+    if (!taskStatus || taskStatus.length === 0)
+      return res
         .status(204)
         .json({ message: "There is no task with that status value" });
 
