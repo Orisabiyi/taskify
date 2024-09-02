@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "migrate:init": "npx migrate-mongo init",
+    "migrate:up": "npx migrate-mongo up",
+    "migrate:down": "npx migrate-mongo down",
+    "migrate:create": "npx migrate-mongo create"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +25,7 @@
     "validator": "^13.12.0"
   },
   "devDependencies": {
+    "migrate-mongo": "^11.0.0",
     "nodemon": "^3.1.4"
   }
 }
