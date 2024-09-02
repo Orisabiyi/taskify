@@ -65,7 +65,14 @@ const taskInputValidator = function (
   )
     return res.status(401).json({ message: "invalid status value" });
 
-  if (!categories || typeof categories !== "string")
+  if (
+    !categories ||
+    typeof categories !== "string" ||
+    (categories !== "work" &&
+      categories !== "personal" &&
+      categories !== "urgent" &&
+      categories !== "others")
+  )
     return res.status(401).json({
       message: !categories
         ? "provide category value"
