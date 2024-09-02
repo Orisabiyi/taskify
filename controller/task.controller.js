@@ -275,6 +275,8 @@ const filterTaskByPriority = async function (req, res) {
 module.exports = {
   createTask,
   getAllTasks,
+  updateTask,
+  deleteTask,
   filterTaskByCategory,
   filterTaskByStatus,
   filterTaskByDate,
