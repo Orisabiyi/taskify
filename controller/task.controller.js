@@ -153,6 +153,45 @@ const filterTaskByDate = async function (req, res) {
   }
 };
 
+const filterTaskByPriority = async function (req, res) {
+  try {
+    const { priority, userId } = req.body;
+
+    if (!priority || typeof priority !== "number")
+      return res.status(400).json({
+        message: "Provide a value for priority and it should be a number",
+      });
+
+    if (!userId || typeof userId !== "string")
+      return res
+        .status(400)
+        .json({ message: "Provide a provide a string value for userId" });
+
+    if (priority > 4 || priority < 1)
+      return res
+        .status(400)
+        .json({ message: "The value of priority should be between 1 - 4" });
+
+    const findUserTask = await Task.find({ userId });
+
+    if (!findUserTask || findUserTask.length === 0)
+      return res.status(400).json({ message: "No task exists for this user" });
+
+    const filterUserTask = findUserTask.filter(
+      (task) => task.priority === priority
+    );
+
+    if (!filterUserTask || filterUserTask.length === 0)
+      return res
+        .status(400)
+        .json({ message: "There is no task for the provided priority" });
+
+    res.status(200).json({ taskByPriority: filterUserTask });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createTask,
   getAllTasks,
