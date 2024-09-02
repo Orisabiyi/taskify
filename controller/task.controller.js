@@ -119,7 +119,7 @@ const filterTaskByStatus = async function (req, res) {
   }
 };
 
-const filterTaskByPriority = async function (req, res) {
+const filterTaskByDate = async function (req, res) {
   try {
     const { dueDate, userId } = req.body;
 
@@ -158,5 +158,5 @@ module.exports = {
   getAllTasks,
   filterTaskByCategory,
   filterTaskByStatus,
-  filterTaskByPriority,
+  filterTaskByDate,
 };
