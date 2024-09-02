@@ -6,31 +6,40 @@ const Task = require("../models/task.model.js");
 
 const createTask = async function (req, res) {
   try {
-    const { userId, name, status, categories, priority, dueDate } = req.body;
+    const { tasks } = req.body;
+    const createdTasks = [];
 
-    if (
-      taskInputValidator(
-        res,
+    for (const task of tasks) {
+      const { userId, name, status, categories, priority, dueDate } = task;
+
+      if (
+        taskInputValidator(
+          res,
+          userId,
+          name,
+          status,
+          categories,
+          priority,
+          dueDate
+        ) !== true
+      )
+        return;
+
+      const newTask = await Task.create({
         userId,
         name,
         status,
         categories,
         priority,
-        dueDate
-      ) !== true
-    )
-      return;
+        dueDate,
+      });
 
-    const task = await Task.create({
-      userId,
-      name,
-      status,
-      categories,
-      priority,
-      dueDate,
-    });
+      createdTasks.push(newTask);
+    }
 
-    res.status(201).json({ task });
+    res
+      .status(201)
+      .json({ message: "Task Created Successfully", tasks: createdTasks });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -47,9 +56,59 @@ const getAllTasks = async function (req, res) {
       return res
         .status(404)
         .json({ message: "Create a tasks, your task list is empty" });
+
     res.status(200).json({ tasks });
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+const updateTask = async function (req, res) {
+  try {
+    const { id, task } = req.body;
+    const { userId, name, status, categories, priority, dueDate } = task;
+
+    if (!id || typeof id !== "string")
+      return res.status(400).json({ messgae: "Provide valid ID" });
+
+    if (
+      taskInputValidator(
+        res,
+        userId,
+        name,
+        status,
+        categories,
+        priority,
+        dueDate
+      ) !== true
+    )
+      return;
+
+    const checkTask = await Task.findById(id);
+
+    if (!checkTask)
+      return res
+        .status(400)
+        .json({ message: "There is no task with the assigned id" });
+
+    const updateTask = await Task.findByIdAndUpdate(
+      id,
+      {
+        userId,
+        name,
+        status,
+        categories,
+        priority,
+        dueDate,
+      },
+      { new: true }
+    );
+
+    res
+      .status(200)
+      .json({ message: "Task updated successfully", task: updateTask });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
