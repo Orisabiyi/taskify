@@ -3,9 +3,18 @@ const mongoose = require("mongoose");
 const userRoute = require("./routes/user.route.js");
 const taskRoute = require("./routes/task.route.js");
 const authenticateToken = require("./middleware/auth.middleware.js");
+const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "*",
+    optionsSuccessStatus: 200,
+  })
+);
+
 app.use(express.json());
 
 app.use("/auth", userRoute);

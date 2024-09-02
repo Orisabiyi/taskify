@@ -56,21 +56,38 @@ const taskInputValidator = function (
   if (!name || typeof name !== "string")
     return res.status(401).json({ message: "invalid name" });
 
-  if (!status || (status !== "incomplete" && status !== "complete"))
-    return res.status(401).json({ message: "invalid status value" });
+  if (
+    !status ||
+    (status !== "pending" &&
+      status !== "in-progress" &&
+      status !== "completed" &&
+      status !== "archived")
+  )
+    return res.status(401).json({
+      message: !status
+        ? "Invalid status value"
+        : "Status value should be pending, in-progress, completed or archived",
+    });
 
-  if (!categories || typeof categories !== "string")
+  if (
+    !categories ||
+    typeof categories !== "string" ||
+    (categories !== "work" &&
+      categories !== "personal" &&
+      categories !== "urgent" &&
+      categories !== "others")
+  )
     return res.status(401).json({
       message: !categories
         ? "provide category value"
-        : "categories value should be a string",
+        : "categories value should be a string of value work, personal, urgent or others",
     });
 
-  if (!priority || typeof priority !== "number")
+  if (!priority || typeof priority !== "number" || priority > 4 || priority < 1)
     return res.status(401).json({
       message: !priority
         ? "provide a value for priority"
-        : "priority should be a number",
+        : "priority should be a number with the range of 1 - 4",
     });
 
   if (!isValidDate(dueDate))
@@ -83,4 +100,5 @@ module.exports = {
   validateUserRegisterInput,
   inputValidator,
   taskInputValidator,
+  isValidDate,
 };
