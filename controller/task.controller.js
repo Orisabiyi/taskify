@@ -103,21 +103,23 @@ const filterTaskByStatus = async function (req, res) {
         .json({ message: "Both status and userId should be strings." });
 
     // find tasks related to userId and validate the existence
-    const tasks = await Task.find({ userId });
-    if (!tasks || tasks.length === 0)
+    const findUserTask = await Task.find({ userId });
+    if (!findUserTask || findUserTask.length === 0)
       res.status(404).json({ message: "User do not exist" });
 
     // filter tasks based on status value and validate
-    const taskStatus = tasks.filter((task) => task.status === status);
-    if (!taskStatus || taskStatus.length === 0)
+    const filterUserTask = findUserTask.filter(
+      (task) => task.status === status
+    );
+    if (!filterUserTask || filterUserTask.length === 0)
       return res
         .status(204)
         .json({ message: "There is no task with that status value" });
 
     // return the task based on the status provided when successful
-    res.status(200).json({ message: taskStatus });
+    res.status(200).json({ taskByStatus: filterUserTask });
   } catch (error) {
-    res.status(500).json({ error });
+    res.status(500).json({ error: error.message });
   }
 };
 
