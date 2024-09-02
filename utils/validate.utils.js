@@ -63,13 +63,11 @@ const taskInputValidator = function (
       status !== "completed" &&
       status !== "archived")
   )
-    return res
-      .status(401)
-      .json({
-        message: !status
-          ? "Invalid status value"
-          : "Status value should be pending, in-progress, completed or archived",
-      });
+    return res.status(401).json({
+      message: !status
+        ? "Invalid status value"
+        : "Status value should be pending, in-progress, completed or archived",
+    });
 
   if (
     !categories ||
@@ -102,4 +100,5 @@ module.exports = {
   validateUserRegisterInput,
   inputValidator,
   taskInputValidator,
+  isValidDate,
 };
