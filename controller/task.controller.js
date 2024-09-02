@@ -1,4 +1,7 @@
-const { taskInputValidator } = require("../utils/validate.utils.js");
+const {
+  taskInputValidator,
+  isValidDate,
+} = require("../utils/validate.utils.js");
 const Task = require("../models/task.model.js");
 
 const createTask = async function (req, res) {
@@ -119,6 +122,32 @@ const filterTaskByStatus = async function (req, res) {
 const filterTaskByPriority = async function (req, res) {
   try {
     const { dueDate, userId } = req.body;
+
+    if (!isValid(dueDate))
+      return res.status(400).json({ message: "The date provided is invalid" });
+
+    if (!userId || typeof userId !== "string")
+      return res
+        .status(400)
+        .json({ message: "Provide a string value for userId" });
+
+    const findUserTask = await Task.find({ userId });
+
+    if (!findUserTask || findUserTask.length === 0)
+      return res
+        .status(400)
+        .json({ message: "There is no existing user with the provided Id" });
+
+    const filterUserTask = findUserTask.filter(
+      (task) => task.dueDate === dueDate
+    );
+
+    if (!filterUserTask || filterUserTask.length === 0)
+      return res
+        .status(400)
+        .json({ message: "No task with the provided Due Date" });
+
+    res.status(200).json({ taskByDueDate: filterUserTask });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
