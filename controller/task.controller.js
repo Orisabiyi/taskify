@@ -66,20 +66,22 @@ const filterTaskByCategory = async function (req, res) {
         .status(400)
         .json({ message: "Both category and userId should be a string" });
 
-    const tasks = await Task.find({ userId });
-    if (!tasks || tasks.length === 0)
+    const findUserTask = await Task.find({ userId });
+    if (!findUserTask || findUserTask.length === 0)
       return res
         .status(404)
         .json({ message: `There is no existing tasks for this user` });
 
-    const taskCategory = tasks.filter((task) => task.category === category);
+    const filterUserTask = findUserTask.filter(
+      (task) => task.category === category
+    );
 
-    if (!taskCategory)
+    if (!filterUserTask)
       return res
         .status(204)
         .json({ message: "There is no task with the category provided" });
 
-    res.status(200).json({ tasks });
+    res.status(200).json({ taskByCategory: filterUserTask });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
