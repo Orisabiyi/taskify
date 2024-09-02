@@ -1,4 +1,3 @@
-const validator = require("validator");
 const { taskInputValidator } = require("../utils/validate.utils.js");
 const Task = require("../models/task.model.js");
 
@@ -117,9 +116,18 @@ const filterTaskByStatus = async function (req, res) {
   }
 };
 
+const filterTaskByPriority = async function (req, res) {
+  try {
+    const { dueDate, userId } = req.body;
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createTask,
   getAllTasks,
   filterTaskByCategory,
   filterTaskByStatus,
+  filterTaskByPriority,
 };
