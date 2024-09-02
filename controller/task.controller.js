@@ -202,4 +202,5 @@ module.exports = {
   filterTaskByCategory,
   filterTaskByStatus,
   filterTaskByDate,
+  filterTaskByPriority,
 };
