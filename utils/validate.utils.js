@@ -79,11 +79,11 @@ const taskInputValidator = function (
         : "categories value should be a string",
     });
 
-  if (!priority || typeof priority !== "number")
+  if (!priority || typeof priority !== "number" || priority > 4 || priority < 1)
     return res.status(401).json({
       message: !priority
         ? "provide a value for priority"
-        : "priority should be a number",
+        : "priority should be a number with the range of 1 - 4",
     });
 
   if (!isValidDate(dueDate))
