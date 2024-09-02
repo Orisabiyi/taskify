@@ -112,6 +112,23 @@ const updateTask = async function (req, res) {
   }
 };
 
+const deleteTask = async function (req, res) {
+  try {
+    const { id } = req.body;
+    if (!id || typeof id !== "string")
+      return res.status(400).json({ message: "Provide a valid string id" });
+
+    const task = await Task.findByIdAndDelete(id);
+
+    if (!task)
+      return res.status(400).json({ message: "Unabale to delete task" });
+
+    res.status(200).json({ message: "Task is deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const filterTaskByCategory = async function (req, res) {
   try {
     const { category, userId } = req.body;
