@@ -14,6 +14,6 @@ router.post("/create", createTask);
 router.post("/filter/category", filterTaskByCategory);
 router.post("/filter/status", filterTaskByStatus);
 router.post("/filter/date", filterTaskByDate);
-router.post("/filter/date", filterTaskByPriority);
+router.post("/filter/priority", filterTaskByPriority);
 
 module.exports = router;
