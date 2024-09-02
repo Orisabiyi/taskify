@@ -63,7 +63,13 @@ const taskInputValidator = function (
       status !== "completed" &&
       status !== "archived")
   )
-    return res.status(401).json({ message: "invalid status value" });
+    return res
+      .status(401)
+      .json({
+        message: !status
+          ? "Invalid status value"
+          : "Status value should be pending, in-progress, completed or archived",
+      });
 
   if (
     !categories ||
@@ -76,7 +82,7 @@ const taskInputValidator = function (
     return res.status(401).json({
       message: !categories
         ? "provide category value"
-        : "categories value should be a string",
+        : "categories value should be a string of value work, personal, urgent or others",
     });
 
   if (!priority || typeof priority !== "number" || priority > 4 || priority < 1)
