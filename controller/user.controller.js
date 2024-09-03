@@ -35,13 +35,13 @@ const createUser = async function (req, res) {
     });
     const refreshToken = jwt.sign(
       { userId: user._id },
-      process.env.JWT_SECRET,
+      process.env.JWT_REFRESH_SECRET,
       { expiresIn: "7d" }
     );
 
     const user = await User.create({ name, email, password, refreshToken });
 
-    res.status(201).json({ token });
+    res.status(201).json({ token, refreshToken });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -62,16 +62,20 @@ const loginUser = async function (req, res) {
 
     const user = await User.findOne({ email });
 
-    if (!user) return res.status(409).json({ message: "user not found " });
-
-    if (!(await bcrypt.compare(password, user.password)))
-      return res.status(401).json({ message: "Invalid credentials" });
+    if (!user || !(await bcrypt.compare(password, user.password)))
+      return res.status(409).json({ message: "Invalid email or password" });
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
 
-    res.status(200).json({ token });
+    const refreshToken = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_REFRESH_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.status(200).json({ token, refreshToken });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
