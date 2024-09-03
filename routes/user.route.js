@@ -4,10 +4,12 @@ const {
   createUser,
   loginUser,
   refreshToken,
+  profile,
 } = require("../controller/user.controller.js");
 
 router.post("/register", createUser);
 router.post("/login", loginUser);
-router.post("/login", refreshToken);
+router.post("/refresh-token", refreshToken);
+router.get("/profile", profile);
 
 module.exports = router;
