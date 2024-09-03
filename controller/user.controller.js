@@ -81,4 +81,36 @@ const loginUser = async function (req, res) {
   }
 };
 
-module.exports = { createUser, loginUser };
+const refreshToken = async function (req, res) {
+  try {
+    const { refreshToken } = req.body;
+
+    if (!refreshToken)
+      return res.status(401).json({ message: "Refresh token is required" });
+
+    const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+    const user = await User.findById(decoded.userId);
+
+    if (!user || user.refreshToken !== refreshToken)
+      return res.status(403).json({ message: "Invalid refresh token" });
+
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
+
+    const newRefreshToken = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_REFRESH_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    user.refreshToken = newRefreshToken;
+    await user.save();
+
+    res.status(200).json({ token, refreshToken: newRefreshToken });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { createUser, loginUser, refreshToken };
