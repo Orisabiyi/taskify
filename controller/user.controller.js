@@ -119,7 +119,9 @@ const profile = async function (req, res) {
     if (!token) return res.status(401).json({ message: "Token is required" });
 
     const decode = jwt.verify(token, process.env.JWT_SECRET);
-    const user = User.findById(decode.userId);
+
+    // find a user based on jwt and excluding the password
+    const user = User.findById(decode.userId).select("-password");
 
     if (!user) return res.status(400).json({ message: "Invalid token" });
 
@@ -129,4 +131,4 @@ const profile = async function (req, res) {
   }
 };
 
-module.exports = { createUser, loginUser, refreshToken };
+module.exports = { createUser, loginUser, refreshToken, profile };
