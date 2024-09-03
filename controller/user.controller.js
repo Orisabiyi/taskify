@@ -30,10 +30,17 @@ const createUser = async function (req, res) {
     email = email.toLowerCase();
     password = await bcrypt.hash(password, 10);
 
-    const user = await User.create({ name, email, password });
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
+    const refreshToken = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    const user = await User.create({ name, email, password, refreshToken });
+
     res.status(201).json({ token });
   } catch (error) {
     res.status(500).json({ message: error.message });
