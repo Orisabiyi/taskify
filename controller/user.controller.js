@@ -113,4 +113,20 @@ const refreshToken = async function (req, res) {
   }
 };
 
+const profile = async function (req, res) {
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) return res.status(401).json({ message: "Token is required" });
+
+    const decode = jwt.verify(token, process.env.JWT_SECRET);
+    const user = User.findById(decode.userId);
+
+    if (!user) return res.status(400).json({ message: "Invalid token" });
+
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = { createUser, loginUser, refreshToken };
