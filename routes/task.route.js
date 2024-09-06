@@ -12,8 +12,8 @@ const {
 } = require("../controller/task.controller.js");
 
 router.get("/", getUserTasks);
-router.post("/delete", deleteTask);
-router.post("/update", updateUserTask);
+router.delete("/delete", deleteTask);
+router.put("/update", updateUserTask);
 router.post("/create", createUserTasks);
 
 // This route are meant to filter or sort user task by category, priority, status or dueDate
