@@ -16,9 +16,11 @@ router.post("/delete", deleteTask);
 router.post("/update", updateUserTask);
 router.post("/create", createUserTasks);
 
-router.post("/filter/category", filterTaskByCategory);
-router.post("/filter/priority", filterTaskByPriority);
-router.post("/filter/status", filterTaskByStatus);
-router.post("/filter/date", filterTaskByDate);
+// This route are meant to filter or sort user task by category, priority, status or dueDate
+
+router.post("/category", filterTaskByCategory);
+router.post("/priority", filterTaskByPriority);
+router.post("/status", filterTaskByStatus);
+router.post("/date", filterTaskByDate);
 
 module.exports = router;

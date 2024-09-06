@@ -39,9 +39,17 @@ Taskify API uses **JWT** (JSON Web Token) for authentication. To access certain 
 ```
 | Method  | Endpoint              | Description
 | --------------------------------------------------------------
-| POST    | /api/v1/auth/register |
+| POST    | /api/v1/auth/register | Register a new user
 | --------------------------------------------------------------
-| POST    | /api/v1/auth/login    |
+| POST    | /api/v1/auth/login    | Login a user
 | --------------------------------------------------------------
-|
+| GET     | /api/v1/task/         | Get Task Based on user id
+| --------------------------------------------------------------
+| POST    | /api/v1/task/create   | Create Tasks/Task for a user
+| --------------------------------------------------------------
+| POST    | /api/v1/task/update   | Update a task for a user
+| --------------------------------------------------------------
+| POST    | /api/v1/task/delete   | Delete Task created by a user
+| --------------------------------------------------------------
+| POST    | /api/v1/task/category | Filter Task for a user by category
 ```
