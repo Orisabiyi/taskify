@@ -7,6 +7,8 @@ const {
   filterTaskByCategory,
   filterTaskByDate,
   filterTaskByPriority,
+  updateTask,
+  deleteTask,
 } = require("../controller/task.controller.js");
 
 router.get("/", getUserTasks);
