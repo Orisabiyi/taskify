@@ -45,7 +45,7 @@ const createTask = async function (req, res) {
   }
 };
 
-const getAllTasks = async function (req, res) {
+const getUserTasks = async function (req, res) {
   try {
     const { userId } = req.body;
     if (!userId) return res.status(400).json({ message: "Provide a userId" });
@@ -273,10 +273,10 @@ const filterTaskByPriority = async function (req, res) {
 };
 
 module.exports = {
-  createTask,
-  getAllTasks,
-  updateTask,
-  deleteTask,
+  createUserTasks,
+  getUserTasks,
+  updateUserTask,
+  deletUserTask,
   filterTaskByCategory,
   filterTaskByStatus,
   filterTaskByDate,
