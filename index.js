@@ -17,10 +17,10 @@ app.use(
 
 app.use(express.json());
 
-app.use("/auth", userRoute);
+app.use("/api/v1/auth", userRoute);
 
 // Protected route
-app.use("/task", authenticateToken, taskRoute);
+app.use("/api/v1/task", authenticateToken, taskRoute);
 
 app.get("/", (_, res) => res.send("Welcome to taskify api"));
 
