@@ -7,12 +7,14 @@ const {
   filterTaskByCategory,
   filterTaskByDate,
   filterTaskByPriority,
-  updateTask,
-  deleteTask,
+  updateUserTask,
+  deleteUserTask,
 } = require("../controller/task.controller.js");
 
 router.get("/", getUserTasks);
 router.post("/create", createUserTasks);
+router.post("/update", updateUserTask);
+router.post("/delete", deleteTask);
 router.post("/filter/category", filterTaskByCategory);
 router.post("/filter/status", filterTaskByStatus);
 router.post("/filter/date", filterTaskByDate);
