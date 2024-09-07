@@ -81,7 +81,7 @@ Request Body: {
 ### Get User's task
 
 Method: GET
-Endpoint: `/api/v1/task/
+Endpoint: `/api/v1/task/:userId
 
 Headers: {
   Authorization: `Bearer <token>`
