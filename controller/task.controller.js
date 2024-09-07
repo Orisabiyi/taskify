@@ -47,7 +47,7 @@ const createUserTasks = async function (req, res) {
 
 const getUserTasks = async function (req, res) {
   try {
-    const { userId } = req.body;
+    const userId = req.params.id;
     if (!userId) return res.status(400).json({ message: "Provide a userId" });
 
     const tasks = await Task.find({ userId });
