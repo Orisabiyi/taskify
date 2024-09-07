@@ -4,7 +4,7 @@ const {
 } = require("../utils/validate.utils.js");
 const Task = require("../models/task.model.js");
 
-const createTask = async function (req, res) {
+const createUserTasks = async function (req, res) {
   try {
     const { tasks } = req.body;
     const createdTasks = [];
@@ -63,7 +63,7 @@ const getUserTasks = async function (req, res) {
   }
 };
 
-const updateTask = async function (req, res) {
+const updateUserTask = async function (req, res) {
   try {
     const { id, task } = req.body;
     const { userId, name, status, categories, priority, dueDate } = task;
@@ -112,7 +112,7 @@ const updateTask = async function (req, res) {
   }
 };
 
-const deleteTask = async function (req, res) {
+const deleteUserTask = async function (req, res) {
   try {
     const { id } = req.body;
     if (!id || typeof id !== "string")
@@ -276,7 +276,7 @@ module.exports = {
   createUserTasks,
   getUserTasks,
   updateUserTask,
-  deletUserTask,
+  deleteUserTask,
   filterTaskByCategory,
   filterTaskByStatus,
   filterTaskByDate,

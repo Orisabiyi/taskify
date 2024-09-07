@@ -58,5 +58,7 @@ Taskify API uses **JWT** (JSON Web Token) for authentication. To access certain 
 | POST    | /api/v1/task/status   | Filter a user task by status
 | --------------------------------------------------------------
 | POST    | /api/v1/task/date     | Filter a user task by due date
-
+| --------------------------------------------------------------
 ```
+
+7. **Detailed Endpoints Description**

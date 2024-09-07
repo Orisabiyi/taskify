@@ -12,7 +12,7 @@ const {
 } = require("../controller/task.controller.js");
 
 router.get("/", getUserTasks);
-router.delete("/delete", deleteTask);
+router.delete("/delete", deleteUserTask);
 router.put("/update", updateUserTask);
 router.post("/create", createUserTasks);
 
