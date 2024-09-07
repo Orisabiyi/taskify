@@ -62,3 +62,28 @@ Taskify API uses **JWT** (JSON Web Token) for authentication. To access certain 
 ```
 
 7. **Detailed Endpoints Description**
+
+```
+### Create a new task
+
+Method: POST
+Endpoint: `/api/v1/task/create`
+
+Headers: {
+  Authorization: `Bearer <token>`
+}
+Request Body: {
+  tasks: [
+    {userId, taskName, status, categories, priority, dueDate}
+  ]
+}
+
+### Get User's task
+
+Method: GET
+Endpoint: `/api/v1/task/
+
+Headers: {
+  Authorization: `Bearer <token>`
+}
+```
