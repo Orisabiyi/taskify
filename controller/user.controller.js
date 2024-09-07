@@ -81,14 +81,19 @@ const profile = async function (req, res) {
     const verifyToken = jwt.verify(
       authorization.split(" ")[1],
       process.env.JWT_SECRET,
-      (err) =>
-        err &&
-        res
-          .status(400)
-          .json({ message: "The token you provided is invalid or expired" })
+      (err, user) =>
+        err
+          ? res
+              .status(400)
+              .json({ message: "The token you provided is invalid or expired" })
+          : user
     );
 
-    res.status(201).json({ message: verifyToken });
+    const findUser = await User.findById(verifyToken.userId);
+
+    findUser
+      ? res.status(200).json({ message: findUser })
+      : res.status(400).json({ message: "There is no user" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
