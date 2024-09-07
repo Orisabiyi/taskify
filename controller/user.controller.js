@@ -80,7 +80,12 @@ const profile = async function (req, res) {
 
     const verifyToken = jwt.verify(
       authorization.split(" ")[1],
-      process.env.JWT_SECRET
+      process.env.JWT_SECRET,
+      (err) =>
+        err &&
+        res
+          .status(400)
+          .json({ message: "The token you provided is invalid or expired" })
     );
 
     res.status(201).json({ message: verifyToken });
