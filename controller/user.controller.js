@@ -69,4 +69,24 @@ const loginUser = async function (req, res) {
   }
 };
 
-module.exports = { createUser, loginUser };
+const profile = async function (req, res) {
+  try {
+    const { Authorization } = req.headers;
+    if (
+      !Authorization.split(" ")[1] &&
+      typeof Authorization.split(" ")[1] !== "string"
+    )
+      res.status(400).json({ message: "Provide token for the user" });
+
+    const verifyToken = jwt.verify(
+      Authorization.split(" ")[1],
+      process.env.JWT_SECRET
+    );
+
+    res.status(201).json({ message: verifyToken });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { createUser, loginUser, profile };
